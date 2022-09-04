@@ -16,7 +16,6 @@ export class ItemsService {
     @InjectRepository(Item)
     private itemRepository: Repository<Item>,
   ) {}
-  private items: Item[] = [];
 
   async findAll(): Promise<Item[]> {
     return await this.itemRepository.find().catch((e) => {
@@ -36,16 +35,21 @@ export class ItemsService {
   }
 
   async create(createItemDto: CreateItemDto): Promise<Item> {
-    return await this.itemRepository
-      .save({
-        ...createItemDto,
+    const { name, price, description } = createItemDto;
+    try {
+      const saveItem = await this.itemRepository.create({
+        name,
+        price,
+        description,
         status: ItemStatus.ON_SALE,
         createdAt: new Date(),
         updatedAt: new Date(),
-      } as unknown as Item)
-      .catch((e) => {
-        throw new InternalServerErrorException(e.message);
-      });
+      } as CreateItemDto);
+
+      return await this.itemRepository.save(saveItem);
+    } catch (e) {
+      throw new InternalServerErrorException(e.message);
+    }
   }
 
   async updateStatus(id: string): Promise<Item> {

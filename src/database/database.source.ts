@@ -3,8 +3,6 @@ import { dbconfig } from './database.config';
 
 const AppDataSource = new DataSource({
   ...dbconfig,
-  synchronize: true,
-  migrations: ['src/migration/**/*.ts'],
 } as unknown as DataSourceOptions);
 
 AppDataSource.initialize()
