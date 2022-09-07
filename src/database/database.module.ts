@@ -1,14 +1,5 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { getDbConfig } from './database.config';
+import { databaseProviders } from './database.providers';
 
-@Module({
-  imports: [
-    TypeOrmModule.forRootAsync({
-      useFactory: getDbConfig as unknown as (
-        ...args: any[]
-      ) => TypeOrmModuleOptions | Promise<TypeOrmModuleOptions>,
-    }),
-  ],
-})
+@Module({ providers: [...databaseProviders], exports: [...databaseProviders] })
 export class DatabaseModule {}

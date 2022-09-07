@@ -1,4 +1,5 @@
 import {
+  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -6,14 +7,13 @@ import {
 import { CreateItemDto } from './dto/create-item.dto';
 import { ItemStatus } from './item-status.enum';
 import { UpdateItemDto } from './dto/update-item.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Item } from '../entities/item.entity';
 import { DeleteResult, Repository } from 'typeorm';
 
 @Injectable()
 export class ItemsService {
   constructor(
-    @InjectRepository(Item)
+    @Inject('ITEM_REPOSITORY')
     private itemRepository: Repository<Item>,
   ) {}
 
