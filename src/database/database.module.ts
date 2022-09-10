@@ -1,5 +1,12 @@
 import { Module } from '@nestjs/common';
-import { databaseProviders } from './database.providers';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { dbconfig } from './database.config';
 
-@Module({ providers: [...databaseProviders], exports: [...databaseProviders] })
+@Module({
+  imports: [
+    TypeOrmModule.forRoot({
+      ...dbconfig,
+    } as unknown as TypeOrmModuleOptions),
+  ],
+})
 export class DatabaseModule {}

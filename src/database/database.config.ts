@@ -11,7 +11,3 @@ export const dbconfig = {
   database: process.env.POSTGRES_DB,
   entities: ['dist/entities/*.js'],
 };
-
-export const getDbConfig = () => {
-  return dbconfig;
-};
